@@ -1,0 +1,32 @@
+body{
+    background-image: url(../img/ypy9U0O.jpeg);
+    background-repeat: no-repeat;
+}
+.login-container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.349); /* Color de fondo transparente */
+    border-radius: 20px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2); /* Sombra */
+}
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #00226b; /* Color del título */
+}
+.form-label {
+    color: #000000; /* Color de las etiquetas */
+}
+.btn-primary {
+    background-color: #007bff; /* Color del botón */
+    border-color: #007bff;
+}
+.btn-primary:hover {
+    background-color: #0056b3; /* Color del botón al pasar el ratón */
+    border-color: #0056b3;
+}
+.form-control:focus {
+    border-color: #1effa1; /* Color del borde al enfocar */
+    box-shadow: 0 0 0 0.25rem rgba(5, 110, 223, 0.61); /* Sombra al enfocar */
+}

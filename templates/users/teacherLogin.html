@@ -1,0 +1,35 @@
+{% extends "users/baseLogin.html" %}
+{% load static %}
+{% block head_content %}
+    <link rel="stylesheet" href="{% static 'css/mystyle.css' %}">
+    <title>Maestro login</title>
+{% endblock %}
+{% block container %}
+    {#{% if form.errors %}{% endif%}#}
+    <div class="login-container">
+        <h2><i class="fas fa-user-lock"></i> Bienvenido Maestro!</h2>
+        <form>
+            {#{% csrf_token %}#}
+            <div class="mb-3">
+                <label for="nombre" class="form-label"><i class="fas fa-user"></i> Nombre del Maestro</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" required>
+            </div>
+            <div class="mb-3">
+                <label for="contraseña" class="form-label"><i class="fas fa-lock"></i> Contraseña</label>
+                <input type="password" class="form-control" id="contrasena" name="contrasena" required>
+            </div>
+            <div class="mb-3">
+                <label for="escuela" class="form-label"><i class="fas fa-school"></i> Escuela</label>
+                <input type="text" class="form-control" id="escuela" name="escuela" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="Grupo" class="form-label"><i class="fas fa-calendar-alt"></i> Grupo</label>
+                <input type="text" class="form-control" id="Grupo" name="Grupo" required>
+            </div>
+            <div class="mb-3 text-center">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Ingresar</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
