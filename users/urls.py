@@ -8,8 +8,13 @@ from users import views
 
 urlpatterns = [
     path(
-        route="login/",
+        route="select/",
         view=views.SelectLogin.as_view(),
+        name="select"
+    ),
+    path(
+        route="login/",
+        view=views.LoginView.as_view(),
         name="login"
     )
 ]
