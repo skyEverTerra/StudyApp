@@ -88,7 +88,6 @@
         }
     </style>
 </head>
-
 <body>
     <div class="container">
         <!-- Imagen de MAESTROS -->
@@ -99,7 +98,9 @@
         <img src="{% static 'img/magia.png' %}" alt="Imagen superior" class="imagen-superior">
         <!-- Botón 1 con imagen -->
         <button class="boton">
-            <img src="{% static 'img/caja.png' %}" alt="Botón 1">
+            <a href="{% url 'users:SignupAsTeacher' %}">
+                <img src="{% static 'img/caja.png' %}" alt="Botón 1">
+            </a>
         </button>
         <!-- Botón 2 con imagen -->
         <button class="boton">

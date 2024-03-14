@@ -9,12 +9,12 @@ from users import views
 urlpatterns = [
     path(
         route="select/",
-        view=views.SelectLogin.as_view(),
+        view=views.Selection.as_view(),
         name="select"
     ),
     path(
-        route="login/",
-        view=views.LoginView.as_view(),
-        name="login"
+        route="SignupAsTeacher/",
+        view=views.SignupTeacherView.as_view(),
+        name="SignupAsTeacher"
     )
 ]
