@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     # Local
     'users',
+    'games'
 
     # Third party
 ]
