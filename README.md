@@ -10,7 +10,7 @@ Proyect for proyect administration
 5. En la parte de urls del navegador escribe `localhost:8000`
 
 solo existen estas urls:
-seleccionar usuario a registrar: `localhost:8000/users/select/`
-registrar maestro: `localhost:8000/users/maestro/`
-login: `localhost:8000/users/login/`
-saber quien esta logeado: `localhost:8000/users/whoami`
+seleccionar usuario a registrar: `localhost:8000/users/select/`,
+registrar maestro: `localhost:8000/users/maestro/`,
+login: `localhost:8000/users/login/`,
+saber quien esta logeado: `localhost:8000/users/whoami`,
