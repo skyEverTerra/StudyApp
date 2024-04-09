@@ -41,7 +41,6 @@ INSTALLED_APPS = [
 
     # Local
     'users',
-    'games'
 
     # Third party
 ]
@@ -108,7 +107,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -120,6 +118,9 @@ USE_I18N = True
 
 USE_TZ = True
 
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = "users:redirect"
+LOGOUT_REDIRECT_URL = ""
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/

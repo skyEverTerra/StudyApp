@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juego del Abecedario</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #E6F7FF; /* Color de fondo */
+    }
+    #container {
+        text-align: center;
+        padding: 20px;
+    }
+    h1 {
+        color: #FF69B4; /* Color de título */
+    }
+    p {
+        color: #000080; /* Color de texto */
+    }
+    img {
+        width: 200px;
+        height: 200px;
+        margin: 10px;
+    }
+    button {
+        font-size: 18px;
+        padding: 10px 20px;
+        margin-top: 20px;
+        cursor: pointer;
+        background-color: #FFC0CB; /* Color de fondo del botón */
+        border: none;
+        border-radius: 5px;
+        color: #000080; /* Color de texto del botón */
+    }
+    
+</style>
+</head>
+<body>
+    <button class="btn-salir" onclick="window.location.href='magic.html'">Salir</button>
+<div id="container">
+    <h1>Juego del Abecedario</h1>
+    <p>Selecciona la letra correcta para el objeto mostrado.</p>
+    <p>Puntaje maximo: 26 puntos.</p>
+    <img id="objectImg" src="" alt="Imagen del objeto">
+    <br>
+    <button id="letterA">A</button>
+    <button id="letterB">B</button>
+    <button id="letterC">C</button>
+    <button id="letterD">D</button>
+    <button id="letterE">E</button>
+    <button id="letterF">F</button>
+    <button id="letterG">G</button>
+    <button id="letterH">H</button>
+    <button id="letterI">I</button>
+    <button id="letterJ">J</button>
+    <button id="letterK">K</button>
+    <button id="letterL">L</button>
+    <button id="letterM">M</button>
+    <button id="letterN">N</button>
+    <button id="letterO">O</button>
+    <button id="letterP">P</button>
+    <button id="letterQ">Q</button>
+    <button id="letterR">R</button>
+    <button id="letterS">S</button>
+    <button id="letterT">T</button>
+    <button id="letterU">U</button>
+    <button id="letterV">V</button>
+    <button id="letterW">W</button>
+    <button id="letterX">X</button>
+    <button id="letterY">Y</button>
+    <button id="letterZ">Z</button>
+
+    <!-- Elemento para mostrar el puntaje -->
+    <p id="scoreDisplay">Puntaje: 0</p>
+    
+</div>
+
+<script>
+    const objects = [
+        { name: "avión", image: "https://img.freepik.com/vector-premium/avion-dibujos-animados_961307-9644.jpg?w=740", correctLetter: "A" },
+        { name: "barco", image: "https://cdn.pixabay.com/photo/2024/03/03/15/06/sailboat-8610557_1280.jpg", correctLetter: "B" },
+        { name: "calamardo", image: "https://i.pinimg.com/564x/dd/ae/f3/ddaef33539020681b1ced0b5ee35b042.jpg", correctLetter: "C" },
+        { name: "dinosaurio", image: "https://i.pinimg.com/564x/8c/ba/e3/8cbae3ebdc4320c731a1a8b70835f18b.jpg", correctLetter: "D" },
+        { name: "espada", image: "https://i.pinimg.com/564x/10/54/1f/10541fc567ea0b3b2546881cd9518557.jpg", correctLetter: "E" },
+        { name: "fruta", image: "https://i.pinimg.com/564x/01/54/12/015412f40501b820f34257b1590af202.jpg", correctLetter: "F" },
+        { name: "gato", image: "https://i.pinimg.com/564x/9a/36/14/9a3614fb17ec800dc43ba09a95e29f64.jpg", correctLetter: "G" },
+        { name: "helado", image: "https://i.pinimg.com/564x/ed/e0/f3/ede0f3ef925ae96b3bc7a9a33579a9f8.jpg", correctLetter: "H" },
+        { name: "iglú", image: "https://i.pinimg.com/564x/7f/95/ff/7f95ff1171e04697e9622b825ed3cb14.jpg", correctLetter: "I" },
+        { name: "jirafa", image: "https://i.pinimg.com/564x/ec/94/a8/ec94a8cedcdd8227527cb92624078b2d.jpg", correctLetter: "J" },
+        { name: "kiwi", image: "https://i.pinimg.com/564x/8a/86/58/8a86580bfc3ae0808b9b2d49a72ba6c2.jpg", correctLetter: "K" },
+        { name: "libro", image: "https://i.pinimg.com/564x/ea/1d/28/ea1d28663072613b9da4d17d3e4c925a.jpg", correctLetter: "L" },
+        { name: "manzana", image: "https://i.pinimg.com/564x/19/4e/a9/194ea9a6c4828d93a51acfabd81c2652.jpg", correctLetter: "M" },
+        { name: "niño", image: "https://i.pinimg.com/564x/38/4c/9f/384c9fcc633098ac38d10ce71e78b807.jpg", correctLetter: "N" },
+        { name: "oso", image: "https://i.pinimg.com/564x/a5/02/82/a50282ed123789b80a2b576cafe18b8f.jpg", correctLetter: "O" },
+        { name: "pelota", image: "https://i.pinimg.com/564x/a7/55/42/a755428397c371b61dac52ffce79cd47.jpg", correctLetter: "P" },
+        { name: "queso", image: "https://i.pinimg.com/564x/75/33/d3/7533d380bbc65467d4cc8dda42791ba2.jpg", correctLetter: "Q" },
+        { name: "ratón", image: "https://i.pinimg.com/564x/63/91/e6/6391e662d930b9bcd023d62341e25dd7.jpg", correctLetter: "R" },
+        { name: "sol", image: "https://i.pinimg.com/564x/59/7b/b0/597bb0a99afb0eae89fcf0065469614a.jpg", correctLetter: "S" },
+        { name: "tortuga", image: "https://i.pinimg.com/564x/8d/45/3b/8d453b4595a616ccf3885921f1e3bdad.jpg", correctLetter: "T" },
+        { name: "unicornio", image: "https://i.pinimg.com/564x/2e/78/ee/2e78ee55aa1d519c1c8d0fa79cf9e542.jpg", correctLetter: "U" },
+        { name: "vestido", image: "https://i.pinimg.com/564x/34/12/bf/3412bf1b76985f698dfa3433f42e74e1.jpg", correctLetter: "V" },
+        { name: "waffle", image: "https://i.pinimg.com/564x/26/7a/d2/267ad24dc167d772fc760b6286189a89.jpg", correctLetter: "W" },
+        { name: "xilófono", image: "https://i.pinimg.com/564x/f0/f8/70/f0f87092e96a587bb82b84c9200625f6.jpg", correctLetter: "X" },
+        { name: "yoyo", image: "https://i.pinimg.com/564x/55/28/d5/5528d589b4db68bf4828ab720b91aed0.jpg", correctLetter: "Y" },
+        { name: "zorro", image: "https://i.pinimg.com/564x/6f/e0/ac/6fe0ac0cc25ab4da43026d4372f6d965.jpg", correctLetter: "Z" }
+    ];
+
+    let score = 0; // Variable para almacenar el puntaje
+
+    const objectImg = document.getElementById('objectImg');
+    const buttons = document.querySelectorAll('button');
+    const scoreDisplay = document.getElementById('scoreDisplay');
+
+    // Función para barajar aleatoriamente el array de objetos
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // Barajar el array de objetos al iniciar el juego
+    shuffle(objects);
+
+    let currentObjectIndex = 0;
+
+    function displayObject() {
+        objectImg.src = objects[currentObjectIndex].image;
+    }
+
+    function checkAnswer(selectedLetter) {
+        const correctLetter = objects[currentObjectIndex].correctLetter;
+        if (selectedLetter === correctLetter) {
+            alert("¡Correcto!");
+            score++; // Incrementar el puntaje si la respuesta es correcta
+        } else {
+            alert("Incorrecto. Intenta de nuevo.");
+        }
+        currentObjectIndex++;
+        if (currentObjectIndex < objects.length) {
+            displayObject();
+        } else {
+            alert("¡Felicidades! Has completado el juego. Tu puntaje es: " + score); // Mostrar el puntaje al final del juego
+            currentObjectIndex = 0;
+            score = 0; // Reiniciar el puntaje
+            shuffle(objects); // Barajar el array de objetos para el próximo juego
+            displayObject();
+        }
+        updateScoreDisplay(); // Actualizar la visualización del puntaje
+    }
+
+    // Función para actualizar la visualización del puntaje
+    function updateScoreDisplay() {
+        scoreDisplay.textContent = "Puntaje: " + score;
+    }
+
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            checkAnswer(button.textContent);
+        });
+    });
+
+    displayObject();
+    updateScoreDisplay(); // Mostrar el puntaje inicial
+</script>
+</body>
+</html>

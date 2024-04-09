@@ -104,9 +104,12 @@
         </button>
         <!-- Botón 2 con imagen -->
         <button class="boton">
-            <img src="{% static 'img/caja.png' %}" alt="Botón 2">
+            <a href="{% url 'users:SignupAsStudent' %}">
+                <img src="{% static 'img/caja.png' %}" alt="Botón 2">
+            </a>
         </button>
     </div>
+    <p class="footer-text">¿Tienes una cuenta? <a href="{% url 'users:login' %}">Entra aquí</a></p>
 </body>
 
 </html>

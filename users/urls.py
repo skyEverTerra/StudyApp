@@ -8,6 +8,16 @@ from users import views
 
 urlpatterns = [
     path(
+        route="",
+        view=views.StudentMainView.as_view(),
+        name="StudentMainView"
+    ),
+    path(
+        route="list/",
+        view=views.TeacherListView.as_view(),
+        name="TeacherListView"
+    ),
+    path(
         route="select/",
         view=views.SelectionView.as_view(),
         name="select"
@@ -18,13 +28,23 @@ urlpatterns = [
         name="SignupAsTeacher"
     ),
     path(
+        route="alumno/",
+        view=views.SignupStudentView.as_view(),
+        name="SignupAsStudent"
+    ),
+    path(
         route="login/",
         view=views.LoginView.as_view(),
         name="login"
     ),
     path(
-        route="whoami/",
-        view=views.mostrar_usuario,
-        name="ms"
+        route="redirect/",
+        view=views.redirection,
+        name="redirect"
+    ),
+    path(
+        route="colores/",
+        view=views.game_colores,
+        name="colores"
     )
 ]

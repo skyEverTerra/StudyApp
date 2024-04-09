@@ -1,0 +1,234 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="colors.css">
+    <title>Document</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+        *{
+            box-sizing: border-box;
+            font-family: 'Open Sans';
+        }
+        body{
+            background: linear-gradient( #cb96f7,#9178ec );
+            background-image: url('{% static "img/colors.jpg" %}');
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        section{
+            width: 500px;
+            background-color: #41e1f785;
+            border: 7px solid #2166fc;
+            color: #000;
+            padding: 7px;
+        }
+        h2{
+            border-bottom: 1px solid #9b58d1;
+            text-align: center;
+            padding-bottom: 5px;
+        }
+        #palabra{
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+        }
+        .color{
+            height: 50px;
+            width: 50px;
+            border: 2px solid #9b58d1;
+            text-align: center;
+            margin: 4px;
+            font-weight: 600;
+            font-size: 30px;
+            cursor: pointer;
+        }
+        h3{
+            margin: 4px 0;
+            font-weight: normal;
+            font-size: 16px;
+        }
+        h3 span{
+            font-style: italic;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        #puntaje {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        button{
+            display: block;
+            width: fit-content;
+            margin: auto;
+            background-color:#1eadd8;
+            border: 2px solid #1eadd8;
+            border-radius: 20px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 15px;
+            padding: 10px;
+            margin-top: 30px;
+            cursor: pointer;
+            transition: .5s;
+        }
+        button:hover{
+            background-color: #02bfa4;
+        }
+        #tiempo {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <h2>Adivina el Color</h2>
+        <div id="palabra">
+            <!-- Aquí se generarán los colores al azar -->
+        </div>
+        <h3>Colores ingresados: <span id="coloresIngresados"></span></h3>
+        <h3>Resultado: <span id="resultado"></span></h3>
+        <button onclick="cargarNuevoColor()">Nuevo Color</button>
+        <button class="btn-salir" onclick="window.location.href='magic.html'">Salir</button>
+        <div id="puntaje"></div>
+        <div id="tiempo"></div>
+    </section>
+
+    <script src="recom.js"></script>
+    <script>
+        let coloresDisponibles = [
+            { nombre: '#ff0000', ayuda: 'Red' },
+            { nombre: '#0000ff', ayuda: 'Blue' },
+            { nombre: '#008000', ayuda: 'Green' },
+            { nombre: '#ffff00', ayuda: 'Yellow' },
+            { nombre: '#ffa500', ayuda: 'Orange' },
+            { nombre: '#ffc0cb', ayuda: 'Pink' },
+            { nombre: '#000000', ayuda: 'Black' },
+            { nombre: '#ffffff', ayuda: 'White' },
+            { nombre: '#808080', ayuda: 'Gray' },
+            { nombre: '#a52a2a', ayuda: 'Brown' }
+        ];
+
+        let startTime = new Date().getTime(); // Tiempo de inicio del juego
+        let puntos = 0; // Inicializamos los puntos en 0
+        let respuestasCorrectas = 0; // Contador de respuestas correctas
+        let respuestasIncorrectas = 0; // Contador de respuestas incorrectas
+
+        function generarColorAleatorio() {
+            let index = Math.floor(Math.random() * coloresDisponibles.length);
+            return coloresDisponibles.splice(index, 1)[0];
+        }
+
+        function cargarNuevoColor() {
+            let divPalabra = document.getElementById("palabra");
+            divPalabra.innerHTML = "";
+
+            var urlActual = window.location.href;
+
+            var indiceParametros = urlActual.indexOf('?');
+            if (indiceParametros !== -1) {
+                // Si hay parámetros, eliminémoslos
+                var urlSinParametros = urlActual.substring(0, indiceParametros);
+                
+                // Redirigir a la URL sin parámetros
+                window.location.href = urlSinParametros;
+            }
+
+            for (let i = 0; i < 10; i++) { // Mostrar 10 colores
+                let color = generarColorAleatorio();
+                let divColor = document.createElement("div");
+                divColor.className = "color";
+                divColor.style.backgroundColor = color.nombre;
+                divColor.onclick = function() { intentarAdivinarColor(color.ayuda); }; // Enviamos el nombre del color en inglés
+                divPalabra.appendChild(divColor);
+            }
+
+            // Reiniciar los colores disponibles si no quedan más
+            if (coloresDisponibles.length === 0) {
+                coloresDisponibles = [
+                    { nombre: '#ff0000', ayuda: 'Red' },
+                    { nombre: '#0000ff', ayuda: 'Blue' },
+                    { nombre: '#008000', ayuda: 'Green' },
+                    { nombre: '#ffff00', ayuda: 'Yellow' },
+                    { nombre: '#ffa500', ayuda: 'Orange' },
+                    { nombre: '#ffc0cb', ayuda: 'Pink' },
+                    { nombre: '#000000', ayuda: 'Black' },
+                    { nombre: '#ffffff', ayuda: 'White' },
+                    { nombre: '#808080', ayuda: 'Gray' },
+                    { nombre: '#a52a2a', ayuda: 'Brown' }
+                ];
+            }
+        }
+
+        function intentarAdivinarColor(colorNombre) {
+            let coloresIngresados = document.getElementById("coloresIngresados");
+            let resultado = document.getElementById("resultado");
+
+            let respuesta = prompt("Ingresa el nombre del color en inglés:");
+
+            if (respuesta && respuesta.toLowerCase() === colorNombre.toLowerCase()) {
+                coloresIngresados.innerHTML += `<span style="color: green">${respuesta}</span> `;
+                resultado.textContent = "¡Correcto!";
+                respuestasCorrectas++; // Incrementamos el contador de respuestas correctas
+                puntos += 10; // Sumamos 10 puntos por respuesta correcta
+            } else {
+                coloresIngresados.innerHTML += `<span style="color: red">${respuesta}</span> `;
+                resultado.textContent = "Incorrecto";
+                respuestasIncorrectas++; // Incrementamos el contador de respuestas incorrectas
+                puntos -= 5; // Restamos 5 puntos por respuesta incorrecta
+                if (puntos < 0) {
+                    puntos = 0; // El puntaje nunca puede ser negativo
+                }
+            }
+
+            if ((respuestasCorrectas + respuestasIncorrectas) === 10) { // Si se han ingresado las 10 respuestas, detenemos el tiempo y mostramos el puntaje final
+                let endTime = new Date().getTime(); // Tiempo de finalización del juego
+                let totalTimeInSeconds = (endTime - startTime) / 1000; // Calculamos el tiempo transcurrido en segundos
+                let minutes = Math.floor(totalTimeInSeconds / 60); // Convertimos los segundos a minutos
+                let seconds = Math.floor(totalTimeInSeconds % 60); // Obtenemos los segundos restantes
+                document.getElementById("tiempo").textContent = `Tiempo: ${minutes} minutos ${seconds} segundos`;
+
+                // Mostrar puntaje final
+                document.getElementById("puntaje").textContent = `Tu puntaje final: ${puntos}/100`;
+                evaluarPuntaje(puntos); // Evaluar el puntaje
+            }
+        }
+
+        // evaluarPuntaje.js
+function evaluarPuntaje(puntos) {
+    let recomendaciones = "";
+    let materia = "Ingles"
+    
+    url = window.location.href + "\?puntos=" + puntos
+    window.location.assign(url);
+
+    if (puntos >= 80) {
+        recomendaciones = rec_hab[materia][0];
+    } else if (puntos >= 60) {
+        recomendaciones = rec_hab[materia][1];
+    } else if (puntos >= 40) {
+        recomendaciones = rec_hab[materia][2];
+    } else {
+        recomendaciones = rec_hab[materia][3];
+    }
+
+    alert(recomendaciones); // Mostrar las recomendaciones en un cuadro de alerta
+}
+
+
+        cargarNuevoColor();
+    </script>
+</body>
+</html>
