@@ -104,10 +104,13 @@
         <button class="btn-salir" onclick="window.location.href='magic.html'">Salir</button>
         <div id="puntaje"></div>
         <div id="tiempo"></div>
+        <p id="varpar"></p>
     </section>
 
     <script src="recom.js"></script>
     <script>
+        let varpar = document.getElementById("varpar")
+
         let coloresDisponibles = [
             { nombre: '#ff0000', ayuda: 'Red' },
             { nombre: '#0000ff', ayuda: 'Blue' },
@@ -210,9 +213,6 @@
 function evaluarPuntaje(puntos) {
     let recomendaciones = "";
     let materia = "Ingles"
-    
-    url = window.location.href + "\?puntos=" + puntos
-    window.location.assign(url);
 
     if (puntos >= 80) {
         recomendaciones = rec_hab[materia][0];
@@ -225,6 +225,9 @@ function evaluarPuntaje(puntos) {
     }
 
     alert(recomendaciones); // Mostrar las recomendaciones en un cuadro de alerta
+
+    url = window.location.href + "\?puntos=" + puntos
+    window.location.assign(url);
 }
 
 

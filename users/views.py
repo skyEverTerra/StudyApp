@@ -3,7 +3,7 @@
 # Django
 from django import http
 from django.forms import ValidationError
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, FormView
 
@@ -23,6 +23,10 @@ from users.forms import SignupTeacherForm, SignupStudentForm
 
 # Models
 from users.models import Calif, Materia, Maestro, Alumno
+
+# Other
+from users.rec import RECOM
+from math import ceil
 
 # External lib
 from typing import Any
@@ -99,6 +103,10 @@ def game_colores(request):
 
     if puntos:
         print("aqui estan puntos", puntos)
+        #try:
+        #    if alumno:
+        #        return HttpResponse(RECOM['ingles'][ceil(puntos/25)])
+        #except Calif.DoesNotExist:
         try:
             materia = Materia.objects.get(nombre_materia="Ingles").id_materia
 
@@ -108,7 +116,7 @@ def game_colores(request):
 
         except ValidationError:
             error_message = "Calificacion registrada"
-            print(error_message)
+        #        print(error_message)
 
     return render(request, 'games/Colores.html')
 
