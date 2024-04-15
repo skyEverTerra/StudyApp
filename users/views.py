@@ -93,9 +93,9 @@ class TeacherListView(TeacherRequiredMixin, TemplateView):
 
         # Query
         maestro = Maestro.objects.get(user=self.request.user)
-        cal_alumnos = Calif.objects.all().select_related('alumno', 'materia')
+        cal_alumnos = Calif.objects.filter(alumno__maestro=maestro).select_related('alumno', 'materia')
         alumnos = Alumno.objects.filter(maestro=maestro).values()
-        alumnos = Alumno.objects.filter(calif=None).exclude(calif=2).select_related('user')
+        alumnos = Alumno.objects.filter(maestro=maestro, calif=None).exclude(calif=2).select_related('user')
 
         context['maestro'] = maestro
         context['alumnos'] = cal_alumnos
