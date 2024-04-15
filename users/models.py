@@ -29,7 +29,7 @@ class Calif(models.Model):
     id_calif = models.AutoField(primary_key=True)
     alumno = models.ForeignKey(Alumno, on_delete=models.CASCADE)
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE, null=True)
-    calificacion = models.FloatField() # 1 - 10 or 10 - 100
+    calificacion = models.FloatField() #0 - 100
 
     class Meta:
         # Enforce unique constraint on alumno and materia fields together

@@ -3,12 +3,14 @@
 # Django
 from django import http
 from django.forms import ValidationError
-from django.http import JsonResponse, HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, FormView
+from django.templatetags.static import static
 
 # Auth
 from django.contrib.auth import views as auth_views
+from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
@@ -24,15 +26,20 @@ from users.forms import SignupTeacherForm, SignupStudentForm
 # Models
 from users.models import Calif, Materia, Maestro, Alumno
 
-# Other
-from users.rec import RECOM
+# External
+from json import dumps
 from math import ceil
-
-# External lib
-from typing import Any
 
 # Const
 SUCCESS_URL = 'users:login'
+RECOM = {
+    "Ingles": {
+        "4": "¡Excelente trabajo! Te recomendamos seguir explorando juegos mas avanzados o profundizar en otra materia con ayuda de tu maestro.",
+        "3": "¡Bien hecho! Parece que te gusta la materia. Te recomendamos revisar algunos juegos clave y practicar para seguir mejorando.",
+        "2": "No está mal, pero hay espacio para jugar y mejorar. Te recomendamos revisar los juegos básicos nuevamente y practicar más.",
+        "1": "Todavía hay mucho por aprender. Te recomendamos revisar los juegos basicos y practicar más para fortalecer tus habilidades."
+    }
+} # "extracted from recom.json"
 
 # Create your views here.
 class SelectionView(TemplateView):
@@ -83,17 +90,26 @@ class TeacherListView(TeacherRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
-        # Obtener el maestro actual (suponiendo que está autenticado)
+
+        # Query
         maestro = Maestro.objects.get(user=self.request.user)
-        
-        # Obtener todos los alumnos asociados a este maestro
-        alumnos = Alumno.objects.filter(maestro=maestro)#.select_related('Calif')
-        
-        context['alumnos'] = alumnos
+        cal_alumnos = Calif.objects.all().select_related('alumno', 'materia')
+        alumnos = Alumno.objects.filter(maestro=maestro).values()
+        alumnos = Alumno.objects.filter(calif=None).exclude(calif=2).select_related('user')
+
+        context['maestro'] = maestro
+        context['alumnos'] = cal_alumnos
+        context['alumnos_'] = alumnos
+        context['recomendacion'] = RECOM
 
         return context
 
+class LogoutView(LoginRequiredMixin, TemplateView):
+    """ Logout current user """
+
+    def get(self, request):
+        logout(request)
+        return redirect('users:login')
 
 # Games Views
 @login_required
@@ -101,12 +117,16 @@ def game_colores(request):
     """ Colores game """
     puntos = request.GET.get('puntos', '')
 
+    try:
+        alum_id = Alumno.objects.get(user=request.user.id)
+        cal_alum = Calif.objects.get(alumno=alum_id).calificacion
+        url_redirect = reverse('users:redirect')
+        return HttpResponse(f"""Ya jugó este juego, su calificacion es: {cal_alum}, su recomendacion: {RECOM['Ingles'][f'{ceil(int(cal_alum)/25)}']} <a href="{url_redirect}">atras</a>""")
+    except Calif.DoesNotExist:
+        pass
+
     if puntos:
         print("aqui estan puntos", puntos)
-        #try:
-        #    if alumno:
-        #        return HttpResponse(RECOM['ingles'][ceil(puntos/25)])
-        #except Calif.DoesNotExist:
         try:
             materia = Materia.objects.get(nombre_materia="Ingles").id_materia
 
@@ -116,7 +136,7 @@ def game_colores(request):
 
         except ValidationError:
             error_message = "Calificacion registrada"
-        #        print(error_message)
+            print(error_message)
 
     return render(request, 'games/Colores.html')
 

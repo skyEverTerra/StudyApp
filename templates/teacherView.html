@@ -87,6 +87,17 @@
     .container {
       color: #101110; 
     }
+
+
+        /* Estilo cuando se pasa el cursor sobre el botón */
+        .btn-cerrar_sesion:hover {
+            background-color: #e02c2c; /* Cambiar color de fondo */
+        }
+
+        /* Estilo cuando se presiona el botón */
+        .btn-cerrar_sesion:active {
+            background-color: #d61010; /* Cambiar color de fondo */
+        }
     
   </style>
 </head>
@@ -94,9 +105,11 @@
   <header>
     <!-- Logo de la aplicación -->
     <img src="{% static 'img/magia.png' %}" alt="Logo" id="logo">
-  
-   
+            <a class="btn-cerrar_sesion" href="{% url 'users:logout' %}">Cerrar Sesion</a>
+
 </header>
+
+      <p>Codigo de maestro: {{ maestro.codigo_maestro }}</p>
   <div class="container">
     <h2 class="text-center">Lista de Alumnos</h2>
 
@@ -113,14 +126,37 @@
   <tbody>
     {% for alumno in alumnos %}
     <tr>
-      <td>{{ alumno.user.username }}</td>
+      <td>{{ alumno.alumno.user.username }}</td>
       <td>
         <div style="display: flex; align-items: center;">
           <progress value="{{ alumno.calificacion }}" max="100" style="flex-grow: 1;"></progress>
           <span style="margin-left: 5px;">{{ alumno.calificacion }}%</span>
         </div>
       </td>
-      <td>{#<a href="{% url 'vista_observaciones' alumno.id %}">Recomendaciones</a>#}</td>
+      <td>
+        <span>
+          {% if alumno.calificacion >= 75 %}
+            {{ recomendacion.Ingles.4 }}
+          {% elif alumno.calificacion >= 50 %}
+            {{ recomendacion.Ingles.3 }}
+          {% elif alumno.calificacion >= 25 %}
+            {{ recomendacion.Ingles.2 }}
+          {% elif alumno.calificacion >= 0 %}
+            {{ recomendacion.Ingles.1 }}
+          {% endif %}
+        </span>
+      </td>
+    </tr>
+    {% endfor %}
+    {% for alumno in alumnos_ %}
+    <tr>
+      <td>{{ alumno.user.username }}</td>
+      <td>
+        <div style="display: flex; align-items: center;">
+          <span style="margin-left: 5px;">Sin revisar</span>
+        </div>
+      </td>
+      <td></td>
     </tr>
     {% endfor %}
   </tbody>

@@ -46,5 +46,10 @@ urlpatterns = [
         route="colores/",
         view=views.game_colores,
         name="colores"
+    ),
+    path(
+        route="logout/",
+        view=views.LogoutView.as_view(),
+        name="logout"
     )
 ]
