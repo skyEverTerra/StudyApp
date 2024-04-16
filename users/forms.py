@@ -7,7 +7,7 @@ from django import forms
 
 # Models
 from django.contrib.auth.models import User
-from users.models import Maestro, Alumno
+from users.models import Calif, Maestro, Alumno, Materia
 
 class SignupTeacherForm(forms.Form):
     """Sign up form.
@@ -69,6 +69,7 @@ class SignupTeacherForm(forms.Form):
         user = User.objects.create_superuser(**data)
         profile = Maestro(user=user, codigo_maestro=teacher_code)
         profile.save()
+
 
 class SignupStudentForm(forms.Form):
     """Sign up form.
@@ -144,3 +145,17 @@ class SignupStudentForm(forms.Form):
         user = User.objects.create_user(**data)
         profile = Alumno(user=user, maestro=maestro)
         profile.save()
+
+
+class ABCform(forms.Form):
+    """ game form """
+    calif = forms.IntegerField()
+
+    def save(self, alumno, materia):
+        """ Create new calification """
+        data = self.cleaned_data
+
+        calif = data['calif']
+        print(calif)
+        calif = Calif(alumno=alumno, materia=materia, calificacion=calif)
+        calif.save()

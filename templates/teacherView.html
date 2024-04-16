@@ -112,37 +112,36 @@
       <p>Codigo de maestro: {{ maestro.codigo_maestro }}</p>
   <div class="container">
     <h2 class="text-center">Lista de Alumnos</h2>
-
     <div class="table-responsive">
 
       <table id="alumnosTable" class="table table-striped">
   <thead>
     <tr>
       <th>Nombre</th>
-      <th>Ingles</th>
-      <th>Recomendaciones</th>
+      <th>Promedio</th>
+      <th>Recomendacion General</th>
     </tr>
   </thead>
   <tbody>
     {% for alumno in alumnos %}
     <tr>
-      <td>{{ alumno.alumno.user.username }}</td>
+      <td><a href="{% url 'users:graph' %}?a={{ alumno.0.user.username }}">{{ alumno.0.user.username }}</a></td>
       <td>
         <div style="display: flex; align-items: center;">
-          <progress value="{{ alumno.calificacion }}" max="100" style="flex-grow: 1;"></progress>
-          <span style="margin-left: 5px;">{{ alumno.calificacion }}%</span>
+          <!-- <progress value="{{ alumno.calificacion }}" max="100" style="flex-grow: 1;"></progress> -->
+          <span style="margin-left: 5px;">{{ alumno.1 }}</span>
         </div>
       </td>
       <td>
         <span>
-          {% if alumno.calificacion >= 75 %}
-            {{ recomendacion.Ingles.4 }}
-          {% elif alumno.calificacion >= 50 %}
-            {{ recomendacion.Ingles.3 }}
-          {% elif alumno.calificacion >= 25 %}
-            {{ recomendacion.Ingles.2 }}
-          {% elif alumno.calificacion >= 0 %}
-            {{ recomendacion.Ingles.1 }}
+          {% if alumno.1 >= 75 %}
+            {{ recomendacion.General.0 }}
+          {% elif alumno.1 >= 50 %}
+            {{ recomendacion.General.1 }}
+          {% elif alumno.1 >= 25 %}
+            {{ recomendacion.General.2 }}
+          {% elif alumno.1 >= 0 %}
+            {{ recomendacion.General.3 }}
           {% endif %}
         </span>
       </td>

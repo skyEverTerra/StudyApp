@@ -48,8 +48,18 @@ urlpatterns = [
         name="colores"
     ),
     path(
+        route="abc/",
+        view=views.game_abc.as_view(),
+        name="abc"
+    ),
+    path(
         route="logout/",
         view=views.LogoutView.as_view(),
         name="logout"
+    ),
+    path(
+        route="graph/",
+        view=views.GraficoCalificacionesView.as_view(),
+        name="graph"
     )
 ]
