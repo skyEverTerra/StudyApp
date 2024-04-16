@@ -131,11 +131,24 @@ def game_colores(request):
     puntos = request.GET.get('puntos', '')
 
     try:
+        nombre_materia = 'Ingles'
+
+        materia = Materia.objects.get(nombre_materia=nombre_materia)
         alum_id = Alumno.objects.get(user=request.user.id)
-        cal_alum = Calif.objects.get(alumno=alum_id).calificacion
+        cal_alum = Calif.objects.get(alumno=alum_id, materia=materia).calificacion
         url_redirect = reverse('users:redirect')
-        return HttpResponse(f"""Ya jugó este juego, su calificacion es: {cal_alum}, su recomendacion: {RECOM['Ingles'][abs(ceil(int(cal_alum)/25) - 4)]} <a href="{url_redirect}">atras</a>""")
-    except Calif.DoesNotExist:
+
+        if cal_alum >= 75:
+            ss = 0
+        if cal_alum >= 50:
+            ss = 1
+        if cal_alum >= 25:
+            ss = 2
+        if cal_alum >= 0:
+            ss = 3
+
+        return HttpResponse(f"""Ya jugó este juego, su calificacion es: {cal_alum}, su recomendacion: {RECOM['Ingles'][ss]} <a href="{url_redirect}">atras</a>""")
+    except (Calif.DoesNotExist, Materia.DoesNotExist):
         pass
 
     if puntos:
@@ -164,8 +177,18 @@ class game_abc(LoginRequiredMixin, FormView):
             materia = Materia.objects.get(nombre_materia=nombre_materia)
             alumno = Alumno.objects.get(user=request.user)
             cal_alum = Calif.objects.get(alumno=alumno, materia=materia).calificacion
+
+            if cal_alum >= 75:
+                ss = 3
+            if cal_alum >= 50:
+                ss = 2
+            if cal_alum >= 25:
+                ss = 1
+            if cal_alum >= 0:
+                ss = 0
+
             url_redirect = reverse('users:redirect')
-            return HttpResponse(f"""Ya jugó este juego, su calificacion es: {cal_alum}, su recomendacion: {RECOM['Lenguaje'][abs(ceil(int(cal_alum)/25) - 4)]} <a href="{url_redirect}">atras</a>""")
+            return HttpResponse(f"""Ya jugó este juego, su calificacion es: {cal_alum}, su recomendacion: {RECOM['Lenguaje'][ss]} <a href="{url_redirect}">atras</a>""")
         except (Calif.DoesNotExist, Materia.DoesNotExist):
             pass
         return render(
